@@ -15,3 +15,14 @@ client.connect().then(() => {
 }).catch((err) => {
     console.log(err)
 })
+
+module.exports = {
+    getPlaces : async (type) => {
+        const placeQuery = `
+          SELECT ST_AsGeoJSON(geom), gid, name, fclass
+          FROM place
+          WHERE UPPER(fclass) = UPPER($1);`
+        const result = await client.query(placeQuery, [ type ])
+        return result.rows
+    }
+}
