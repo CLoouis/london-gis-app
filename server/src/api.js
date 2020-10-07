@@ -40,4 +40,15 @@ router.get('/lands/:type', async ctx => {
     ctx.body = boundaries
 })
 
+router.get('/lands/area/:id', async ctx => {
+    const id = ctx.params.id
+    const result = await database.getLandArea(id)
+    if (!result) { 
+        ctx.throw(404) 
+    }
+  
+    ctx.body = result[0].area
+})
+
+
 module.exports = router

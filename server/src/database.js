@@ -33,5 +33,16 @@ module.exports = {
             WHERE UPPER(fclass) = UPPER($1);`
         const result = await client.query(landQuery, [ type ])
         return result.rows
+    },
+
+    getLandArea: async (id) => {
+        const landAreaQuery = `
+            SELECT ST_AREA(ST_TRANSFORM(geom, 32637)) as area
+            FROM land
+            WHERE gid = $1
+            LIMIT 1;
+        `
+        const result = await client.query(landAreaQuery, [ id ])
+        return result.rows
     }
 }
