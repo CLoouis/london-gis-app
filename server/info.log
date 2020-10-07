@@ -1,4 +1,0 @@
-{"level":"info","message":"Server listening at port 5000","timestamp":"2020-10-06T17:57:19.741Z"}
-{"level":"info","message":"GET 404 / - 6 ms","timestamp":"2020-10-06T17:57:27.594Z"}
-{"level":"info","message":"GET 200 /hello - 5 ms","timestamp":"2020-10-06T17:57:31.539Z"}
-{"level":"info","message":"GET 404 /favicon.ico - 0 ms","timestamp":"2020-10-06T17:57:32.057Z"}
