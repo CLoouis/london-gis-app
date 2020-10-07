@@ -19,10 +19,19 @@ client.connect().then(() => {
 module.exports = {
     getPlaces : async (type) => {
         const placeQuery = `
-          SELECT ST_AsGeoJSON(geom), gid, name, fclass
-          FROM place
-          WHERE UPPER(fclass) = UPPER($1);`
+            SELECT ST_AsGeoJSON(geom), gid, name, fclass
+            FROM place
+            WHERE UPPER(fclass) = UPPER($1);`
         const result = await client.query(placeQuery, [ type ])
+        return result.rows
+    },
+
+    getLands: async (type) => {
+        const landQuery = `
+            SELECT ST_AsGeoJSON(geom), name, gid, fclass
+            FROM land
+            WHERE UPPER(fclass) = UPPER($1);`
+        const result = await client.query(landQuery, [ type ])
         return result.rows
     }
 }
