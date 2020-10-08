@@ -28,7 +28,7 @@ const Form = (props) => {
     const { setSearchName, isLoading, setIsLoading } = props;
     const onSubmit = data => {
         setSearchName(data.name)
-        setIsLoading(true);
+        // setIsLoading(true);
     };
 
     return (

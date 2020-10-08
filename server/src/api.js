@@ -35,7 +35,7 @@ router.get('/places/name', async ctx => {
 
     const place = results.map((row) => {
         let geojson = JSON.parse(row.st_asgeojson)
-        geojson.properties = { name: row.name, type: row.fclass}
+        geojson.properties = { name: row.name, type: row.fclass, id: row.gid}
         return geojson
     })
   
@@ -70,7 +70,7 @@ router.get('/lands/name', async ctx => {
 
     const land = results.map((row) => {
         let geojson = JSON.parse(row.st_asgeojson)
-        geojson.properties = { name: row.name, type: row.fclass, area: row.area}
+        geojson.properties = { name: row.name, type: row.fclass, id: row.gid, area: row.area, center_lat: row.lat, center_long: row.long}
         return geojson
     })
   

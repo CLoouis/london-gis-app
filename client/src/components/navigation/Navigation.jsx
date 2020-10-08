@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, IconButton } from "@material-ui/core";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
@@ -11,8 +11,11 @@ const useStyles = makeStyles(() => ({
     end: {
         textAlign: "end",
     },
-    nav: {
+    center: {
         textAlign: "center"
+    },
+    nav: {
+        marginTop: '1em'
     }
 }))
 
@@ -29,20 +32,29 @@ const Navigation = (props) => {
     }
 
     return (
-        <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item xs={2} className={classes.end}>
-                <IconButton onClick={decreaseNumber} disabled={number === 1}>
-                    <ArrowBackIosOutlinedIcon />
-                </IconButton>
-            </Grid>
-            <Grid item xs={4} className={classes.nav}>
-                {number} / {total}
-            </Grid>
-            <Grid item xs={2} className={classes.start}>
-                <IconButton onClick={increaseNumber} disabled={number === total}>
-                    <ArrowForwardIosOutlinedIcon />
-                </IconButton>
-            </Grid>
+        <Grid container direction="row" justify="center" alignItems="center" className={classes.nav}>
+            {total !== 0 && (
+                <>
+                <Grid item xs={2} className={classes.end}>
+                    <IconButton onClick={decreaseNumber} disabled={number === 1}>
+                        <ArrowBackIosOutlinedIcon />
+                    </IconButton>
+                </Grid>
+                <Grid item xs={4} className={classes.center}>
+                    {number} / {total}
+                </Grid>
+                <Grid item xs={2} className={classes.start}>
+                    <IconButton onClick={increaseNumber} disabled={number === total}>
+                        <ArrowForwardIosOutlinedIcon />
+                    </IconButton>
+                </Grid>
+                </>
+            )}
+            {total === 0 && (
+                <Grid item xs={4} className={classes.center}>
+                    No Place
+                </Grid>
+            )}
         </Grid>
     )
 }
