@@ -7,8 +7,9 @@ router.get('/hello', async ctx => {
     ctx.body = 'Hello World'
 })
 
-router.get('/places/:type', async ctx => {
-    const type = ctx.params.type
+router.get('/places/type', async ctx => {
+    const params = ctx.request.query
+    const type = params.type;
     const results = await database.getPlaces(type)
 
     if (results.length === 0) { 
@@ -24,8 +25,26 @@ router.get('/places/:type', async ctx => {
     ctx.body = places
 })
 
-router.get('/lands/:type', async ctx => {
-    const type = ctx.params.type
+router.get('/places/name', async ctx => {
+    const params = ctx.request.query
+    const name = params.name;
+    const results = await database.getPlacesByName(name)
+    if (results.length === 0) { 
+        ctx.throw(404) 
+    }
+
+    const place = results.map((row) => {
+        let geojson = JSON.parse(row.st_asgeojson)
+        geojson.properties = { name: row.name, type: row.fclass}
+        return geojson
+    })
+  
+    ctx.body = place
+})
+
+router.get('/lands/type', async ctx => {
+    const params = ctx.request.query
+    const type = params.type;
     const results = await database.getLands(type)
     if (results.length === 0) { 
         ctx.throw(404) 
@@ -40,14 +59,22 @@ router.get('/lands/:type', async ctx => {
     ctx.body = boundaries
 })
 
-router.get('/lands/area/:id', async ctx => {
-    const id = ctx.params.id
-    const result = await database.getLandArea(id)
-    if (!result) { 
+
+router.get('/lands/name', async ctx => {
+    const params = ctx.request.query
+    const name = params.name;
+    const results = await database.getLandInformation(name)
+    if (results.length === 0) { 
         ctx.throw(404) 
     }
+
+    const land = results.map((row) => {
+        let geojson = JSON.parse(row.st_asgeojson)
+        geojson.properties = { name: row.name, type: row.fclass, area: row.area}
+        return geojson
+    })
   
-    ctx.body = result[0].area
+    ctx.body = land
 })
 
 

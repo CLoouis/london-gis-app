@@ -8,8 +8,6 @@ const client = new postgres.Client({
     database: config.DATABASE_NAME,
 })
 
-console.log(config.DATABASE_HOST)
-
 client.connect().then(() => {
     console.log("Connected to postgres database")
 }).catch((err) => {
@@ -21,8 +19,19 @@ module.exports = {
         const placeQuery = `
             SELECT ST_AsGeoJSON(geom), gid, name, fclass
             FROM place
-            WHERE UPPER(fclass) = UPPER($1);`
+            WHERE UPPER(fclass) = UPPER($1)
+            LIMIT 25;`
         const result = await client.query(placeQuery, [ type ])
+        return result.rows
+    },
+
+    getPlacesByName : async (name) => {
+        const placeByNameQuery = `
+            SELECT name, fclass, ST_AsGeoJSON(geom)
+            FROM place
+            WHERE UPPER(name) LIKE '%${name.toUpperCase()}%';
+        `
+        const result = await client.query(placeByNameQuery)
         return result.rows
     },
 
@@ -30,19 +39,19 @@ module.exports = {
         const landQuery = `
             SELECT ST_AsGeoJSON(geom), name, gid, fclass
             FROM land
-            WHERE UPPER(fclass) = UPPER($1);`
+            WHERE UPPER(fclass) = UPPER($1)
+            LIMIT 25;`
         const result = await client.query(landQuery, [ type ])
         return result.rows
     },
 
-    getLandArea: async (id) => {
-        const landAreaQuery = `
-            SELECT ST_AREA(ST_TRANSFORM(geom, 32637)) as area
+    getLandInformation: async (name) => {
+        const landInformationQuery = `
+            SELECT name, fclass, ST_AsGeoJSON(geom), ST_AREA(ST_TRANSFORM(geom, 32637)) as area
             FROM land
-            WHERE gid = $1
-            LIMIT 1;
+            WHERE UPPER(name) LIKE '%${name.toUpperCase()}%';
         `
-        const result = await client.query(landAreaQuery, [ id ])
+        const result = await client.query(landInformationQuery)
         return result.rows
     }
 }
