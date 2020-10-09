@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from "react-hook-form";
 import { TextField, Button, CircularProgress, Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,10 +25,9 @@ const useStyles = makeStyles(() => ({
 const Form = (props) => {
     const classes = useStyles();
     const { register, handleSubmit } = useForm();
-    const { setSearchName, isLoading, setIsLoading } = props;
+    const { setSearchName, isLoading } = props;
     const onSubmit = data => {
         setSearchName(data.name)
-        // setIsLoading(true);
     };
 
     return (

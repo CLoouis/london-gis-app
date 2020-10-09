@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Map, TileLayer, GeoJSON, Popup } from 'react-leaflet'
 import { makeStyles } from "@material-ui/core/styles";
 
